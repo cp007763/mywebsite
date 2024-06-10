@@ -50,9 +50,14 @@
     </footer>
 
     <script>
-        async function fetchMessages() {
-            const response = await fetch('/messages');
-            const messages = await response.json();
+        function displayMessages() {
+            let messages = localStorage.getItem('messages');
+            if (!messages) {
+                messages = [];
+            } else {
+                messages = JSON.parse(messages);
+            }
+
             const messagesContainer = document.getElementById('messages');
 
             messages.forEach(message => {
@@ -67,7 +72,7 @@
             });
         }
 
-        fetchMessages();
+        displayMessages();
     </script>
 </body>
 </html>
