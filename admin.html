@@ -83,39 +83,15 @@
     </footer>
 
     <script>
-        // Predefined hashed credentials (simple hash function example)
-        const storedUsernameHash = '21232f297a57a5a743894a0e4a801fc3'; // Hash for 'admin'
-        const storedPasswordHash = '5f4dcc3b5aa765d61d8327deb882cf99'; // Hash for 'password'
-
-        // Simple hash function for demonstration (md5-like in style, but not secure)
-        function simpleHash(str) {
-            var hash = 0, i, chr;
-            if (str.length === 0) return hash;
-            for (i = 0; i < str.length; i++) {
-                chr   = str.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
-            }
-            return hash.toString(16);
-        }
-
         document.getElementById('login').addEventListener('submit', function(event) {
             event.preventDefault();
             const inputUsername = document.getElementById('username').value;
             const inputPassword = document.getElementById('password').value;
 
-            // Hash the input credentials
-            const inputUsernameHash = simpleHash(inputUsername);
-            const inputPasswordHash = simpleHash(inputPassword);
-
             console.log('Entered Username:', inputUsername);
             console.log('Entered Password:', inputPassword);
-            console.log('Hashed Username:', inputUsernameHash);
-            console.log('Hashed Password:', inputPasswordHash);
-            console.log('Stored Username Hash:', storedUsernameHash);
-            console.log('Stored Password Hash:', storedPasswordHash);
 
-            if (inputUsernameHash === storedUsernameHash && inputPasswordHash === storedPasswordHash) {
+            if (inputUsername === 'admin' && inputPassword === 'password') {
                 console.log('Login successful!');
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('messageSection').style.display = 'block';
