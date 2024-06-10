@@ -3,68 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-</head>
-<body>
-    <!-- Button with an onclick event -->
-    <button onclick="redirectToWebsite()">Click Me!</button>
-
-    <script>
-        function redirectToWebsite() {
-            window.location.href = "Action.html"; // Change this URL to the desired website
-        }
-    </script>
-</body>
-</html>
-
-<html lang="en">
-<head>
-    <meta charset=UTF-8>
-    <title> TrySomethingDifferent </title>
-
-</head>
-<body>
+    <title>Graphic Design Portfolio</title>
     <style>
         body {
-            background-color:aqua;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    
-        div {background-color:rgb(255, 255, 255)
-
-    }
-    
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        .hero {
+            background: url('your-hero-image.jpg') no-repeat center center/cover;
+            color: #fff;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .section {
+            padding: 2rem;
+            text-align: center;
+        }
+        .portfolio, .services {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .portfolio-item, .service-item {
+            margin: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 300px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
+</head>
+<body>
+    <header>
+        <h1>Your Name Graphic Design</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
 
-    <h1 style="text-align:center"><span style="color:red"</span>Try something different</h1>
-    <div>
-        
-    
-     <h2 style="color:green">Why try something new?</h2>
+    <section id="home" class="hero">
+        <div>
+            <h2>Welcome to My Graphic Design Portfolio</h2>
+            <p>Creativity and Innovation at Your Service</p>
+            <a href="#portfolio" style="background: #fff; color: #333; padding: 0.5rem 1rem; text-decoration: none;">View My Portfolio</a>
+        </div>
+    </section>
 
-    <p>There is now clear medical evidence that we can have a longer and more enjoyable life if we keep both our bodies and our brains active throughout our lifetime – and it is never too early or too late to start. </p>
-    
-    </div>
-    <div>
-    <h2 style="color:green">Here are just a few ideas to whet your appetite!</h2>
+    <section id="portfolio" class="section">
+        <h2>Portfolio</h2>
+        <div class="portfolio">
+            <div class="portfolio-item">
+                <img src="project1.jpg" alt="Project 1" style="width:100%">
+                <h3>Project Title 1</h3>
+                <p>Short description of Project 1.</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="project2.jpg" alt="Project 2" style="width:100%">
+                <h3>Project Title 2</h3>
+                <p>Short description of Project 2.</p>
+            </div>
+            <!-- Add more portfolio items as needed -->
+        </div>
+    </section>
 
-    <ul>
-        <li><a href="Action.html"> Action-packed </a></li>
-        <li><a href="Artistic.html"> Artistic </a></li>
-        <li><a href="Cultural.html"> Cultural </a></li>  
-        <li><a href="Water.html"> Water-based </a></li>
-    </ul>
-    </div>
-    
-    <div>
-    <h2 style="color:green">More information can be found on this website:</h2>
-    <a href="https://www.nhsinform.scot/healthy-living/keeping-active">Keeping Active | NHS Inform</a>
-    </div>
+    <section id="services" class="section">
+        <h2>Services</h2>
+        <div class="services">
+            <div class="service-item">
+                <h3>Logo Design</h3>
+                <p>Creating unique and memorable logos that represent your brand.</p>
+            </div>
+            <div class="service-item">
+                <h3>Branding</h3>
+                <p>Developing cohesive brand identities that resonate with your audience.</p>
+            </div>
+            <!-- Add more services as needed -->
+        </div>
+    </section>
 
+    <section id="about" class="section">
+        <h2>About Me</h2>
+        <p>Brief introduction about yourself, your experience, and your design philosophy.</p>
+    </section>
 
+    <section id="contact" class="section">
+        <h2>Contact</h2>
+        <p>Get in touch with me through the following channels:</p>
+        <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+        <p>Phone: (123) 456-7890</p>
+    </section>
 
-
-
-
-
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
 </body>
 </html>
