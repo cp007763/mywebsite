@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .section {
+            padding: 2rem;
+            text-align: center;
+        }
+        .message {
+            border: 1px solid #ccc;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin - Messages</h1>
+    </header>
+
+    <section class="section" id="messages">
+        <h2>Messages</h2>
+        <!-- Messages will be inserted here by JavaScript -->
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function fetchMessages() {
+            const response = await fetch('/messages');
+            const messages = await response.json();
+            const messagesContainer = document.getElementById('messages');
+
+            messages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `
+                    <p><strong>Name:</strong> ${message.name}</p>
+                    <p><strong>Email:</strong> ${message.email}</p>
+                    <p><strong>Message:</strong> ${message.message}</p>
+                `;
+                messagesContainer.appendChild(messageElement);
+            });
+        }
+
+        fetchMessages();
+    </script>
+</body>
+</html>
