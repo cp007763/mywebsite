@@ -108,11 +108,20 @@
             const inputUsernameHash = simpleHash(inputUsername);
             const inputPasswordHash = simpleHash(inputPassword);
 
+            console.log('Entered Username:', inputUsername);
+            console.log('Entered Password:', inputPassword);
+            console.log('Hashed Username:', inputUsernameHash);
+            console.log('Hashed Password:', inputPasswordHash);
+            console.log('Stored Username Hash:', storedUsernameHash);
+            console.log('Stored Password Hash:', storedPasswordHash);
+
             if (inputUsernameHash === storedUsernameHash && inputPasswordHash === storedPasswordHash) {
+                console.log('Login successful!');
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('messageSection').style.display = 'block';
                 displayMessages();
             } else {
+                console.log('Invalid username or password');
                 alert('Invalid username or password');
             }
         });
