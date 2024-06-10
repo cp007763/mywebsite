@@ -68,4 +68,78 @@
             <div>
                 <input type="submit" value="Login">
             </div>
-        </
+        </form>
+    </section>
+
+    <section class="section message-section" id="messageSection">
+        <h2>Messages</h2>
+        <div id="messages">
+            <!-- Messages will be inserted here by JavaScript -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const username = 'admin'; // Change this to your desired username
+        const password = 'password'; // Change this to your desired password
+
+        document.getElementById('login').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputUsername = document.getElementById('username').value;
+            const inputPassword = document.getElementById('password').value;
+
+            console.log('Attempting login...');
+            console.log(`Entered username: ${inputUsername}, Entered password: ${inputPassword}`);
+
+            if (inputUsername === username && inputPassword === password) {
+                console.log('Login successful!');
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('messageSection').style.display = 'block';
+                displayMessages();
+            } else {
+                console.log('Invalid username or password');
+                alert('Invalid username or password');
+            }
+        });
+
+        function displayMessages() {
+            let messages = localStorage.getItem('messages');
+            if (!messages) {
+                messages = [];
+            } else {
+                messages = JSON.parse(messages);
+            }
+
+            console.log('Displaying messages:', messages);
+
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
+
+            messages.forEach((message, index) => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `
+                    <p><strong>Name:</strong> ${message.name}</p>
+                    <p><strong>Email:</strong> ${message.email}</p>
+                    <p><strong>Message:</strong> ${message.message}</p>
+                    <button onclick="deleteMessage(${index})">Delete</button>
+                `;
+                messagesContainer.appendChild(messageElement);
+            });
+        }
+
+        function deleteMessage(index) {
+            let messages = localStorage.getItem('messages');
+            if (messages) {
+                messages = JSON.parse(messages);
+                messages.splice(index, 1);
+                localStorage.setItem('messages', JSON.stringify(messages));
+                displayMessages();
+            }
+        }
+    </script>
+</body>
+</html>
