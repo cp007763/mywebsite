@@ -27,11 +27,25 @@
             padding: 1rem;
             border-radius: 4px;
         }
+        .login-form, .message-section {
+            display: none;
+        }
         footer {
             background: #333;
             color: #fff;
             text-align: center;
             padding: 1rem;
+        }
+        input[type="submit"] {
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+        input[type="submit"]:hover {
+            background: #555;
         }
     </style>
 </head>
@@ -40,9 +54,28 @@
         <h1>Admin - Messages</h1>
     </header>
 
-    <section class="section" id="messages">
+    <section class="section login-form" id="loginForm">
+        <h2>Login</h2>
+        <form id="login">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+            </div>
+            <div>
+                <input type="submit" value="Login">
+            </div>
+        </form>
+    </section>
+
+    <section class="section message-section" id="messageSection">
         <h2>Messages</h2>
-        <!-- Messages will be inserted here by JavaScript -->
+        <div id="messages">
+            <!-- Messages will be inserted here by JavaScript -->
+        </div>
     </section>
 
     <footer>
@@ -50,6 +83,23 @@
     </footer>
 
     <script>
+        const username = 'admin'; // Change this to your desired username
+        const password = 'password'; // Change this to your desired password
+
+        document.getElementById('login').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputUsername = document.getElementById('username').value;
+            const inputPassword = document.getElementById('password').value;
+
+            if (inputUsername === username && inputPassword === password) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('messageSection').style.display = 'block';
+                displayMessages();
+            } else {
+                alert('Invalid username or password');
+            }
+        });
+
         function displayMessages() {
             let messages = localStorage.getItem('messages');
             if (!messages) {
@@ -59,20 +109,30 @@
             }
 
             const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
 
-            messages.forEach(message => {
+            messages.forEach((message, index) => {
                 const messageElement = document.createElement('div');
                 messageElement.classList.add('message');
                 messageElement.innerHTML = `
                     <p><strong>Name:</strong> ${message.name}</p>
                     <p><strong>Email:</strong> ${message.email}</p>
                     <p><strong>Message:</strong> ${message.message}</p>
+                    <button onclick="deleteMessage(${index})">Delete</button>
                 `;
                 messagesContainer.appendChild(messageElement);
             });
         }
 
-        displayMessages();
+        function deleteMessage(index) {
+            let messages = localStorage.getItem('messages');
+            if (messages) {
+                messages = JSON.parse(messages);
+                messages.splice(index, 1);
+                localStorage.setItem('messages', JSON.stringify(messages));
+                displayMessages();
+            }
+        }
     </script>
 </body>
 </html>
