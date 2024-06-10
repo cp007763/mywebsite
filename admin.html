@@ -83,24 +83,36 @@
     </footer>
 
     <script>
-        const username = 'admin'; // Change this to your desired username
-        const password = 'password'; // Change this to your desired password
+        // Predefined hashed credentials (simple hash function example)
+        const storedUsernameHash = 'e99a18c428cb38d5f260853678922e03'; // Hash for 'admin'
+        const storedPasswordHash = '5f4dcc3b5aa765d61d8327deb882cf99'; // Hash for 'password'
+
+        // Simple hash function for demonstration (md5-like in style, but not secure)
+        function simpleHash(str) {
+            var hash = 0, i, chr;
+            if (str.length === 0) return hash;
+            for (i = 0; i < str.length; i++) {
+                chr   = str.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash.toString(16);
+        }
 
         document.getElementById('login').addEventListener('submit', function(event) {
             event.preventDefault();
             const inputUsername = document.getElementById('username').value;
             const inputPassword = document.getElementById('password').value;
 
-            console.log('Attempting login...');
-            console.log(`Entered username: ${inputUsername}, Entered password: ${inputPassword}`);
+            // Hash the input credentials
+            const inputUsernameHash = simpleHash(inputUsername);
+            const inputPasswordHash = simpleHash(inputPassword);
 
-            if (inputUsername === username && inputPassword === password) {
-                console.log('Login successful!');
+            if (inputUsernameHash === storedUsernameHash && inputPasswordHash === storedPasswordHash) {
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('messageSection').style.display = 'block';
                 displayMessages();
             } else {
-                console.log('Invalid username or password');
                 alert('Invalid username or password');
             }
         });
@@ -112,8 +124,6 @@
             } else {
                 messages = JSON.parse(messages);
             }
-
-            console.log('Displaying messages:', messages);
 
             const messagesContainer = document.getElementById('messages');
             messagesContainer.innerHTML = '';
