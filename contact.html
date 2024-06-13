@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Graphic Design Portfolio</title>
+    <title>Contact Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,118 +11,119 @@
             padding: 0;
             box-sizing: border-box;
         }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 1rem;
+        h1, h2 {
             text-align: center;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 1rem;
-            text-decoration: none;
-        }
-        .section {
-            padding: 2rem;
-            text-align: center;
+            margin-top: 20px;
         }
         form {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
         }
-        form div {
-            margin-bottom: 1rem;
+        input, textarea, button {
+            margin: 10px;
+            padding: 10px;
+            width: 80%;
+            max-width: 500px;
         }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+        #messages {
+            margin: 20px;
+            padding: 10px;
+            text-align: center;
         }
-        input, textarea {
-            width: 100%;
-            padding: 0.5rem;
+        .message {
             border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
             border-radius: 4px;
         }
-        input[type="submit"] {
-            background: #333;
-            color: #fff;
-            border: none;
+        button {
             cursor: pointer;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
         }
-        input[type="submit"]:hover {
-            background: #555;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
+        button:hover {
+            background-color: #555;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Contact Me</h1>
-        <nav>
-            <a href="index.html#home">Home</a>
-            <a href="index.html#portfolio">Portfolio</a>
-            <a href="index.html#services">Services</a>
-            <a href="index.html#about">About</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+    <h1>Contact Me</h1>
+    <form id="contact-form">
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="email" id="email" placeholder="Email" required><br>
+        <textarea id="message" placeholder="Message" required></textarea><br>
+        <button type="submit">Send</button>
+    </form>
 
-    <section class="section">
-        <h2>Get in Touch</h2>
-        <form id="contactForm">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div>
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-            </div>
-            <div>
-                <input type="submit" value="Send Message">
-            </div>
-        </form>
-    </section>
+    <h2>Messages</h2>
+    <div id="messages">
+        <!-- Messages will be inserted here by JavaScript -->
+    </div>
 
-    <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
-    </footer>
-
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBjfbtZjSkelOUvvsfm_bGMGXGxFcrxQh4",
+            authDomain: "website-f716e.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "website-f716e",
+            storageBucket: "website-f716e.appspot.com",
+            messagingSenderId: "216597054364",
+            appId: "1:216597054364:web:d44c1719558afc7472be59"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
-            const newMessage = { name, email, message };
+            // Save message to Firebase
+            database.ref('messages').push({
+                name: name,
+                email: email,
+                message: message
+            });
 
-            let messages = localStorage.getItem('messages');
-            if (!messages) {
-                messages = [];
-            } else {
-                messages = JSON.parse(messages);
-            }
-
-            messages.push(newMessage);
-            localStorage.setItem('messages', JSON.stringify(messages));
-
-            alert('Your message has been sent!');
-            document.getElementById('contactForm').reset();
+            // Clear the form
+            document.getElementById('contact-form').reset();
         });
+
+        function displayMessages() {
+            database.ref('messages').on('value', function(snapshot) {
+                const messages = snapshot.val();
+                const messagesContainer = document.getElementById('messages');
+                messagesContainer.innerHTML = '';
+
+                for (const id in messages) {
+                    const message = messages[id];
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
+                    messageElement.innerHTML = `
+                        <p><strong>Name:</strong> ${message.name}</p>
+                        <p><strong>Email:</strong> ${message.email}</p>
+                        <p><strong>Message:</strong> ${message.message}</p>
+                        <button onclick="deleteMessage('${id}')">Delete</button>
+                    `;
+                    messagesContainer.appendChild(messageElement);
+                }
+            });
+        }
+
+        function deleteMessage(id) {
+            database.ref('messages/' + id).remove();
+        }
+
+        document.addEventListener('DOMContentLoaded', displayMessages);
     </script>
 </body>
 </html>
