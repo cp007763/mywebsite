@@ -63,22 +63,25 @@
         <!-- Messages will be inserted here by JavaScript -->
     </div>
 
-    <!-- Add Firebase SDK -->
+    <!-- Add Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
     <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBjfbtZjSkelOUvvsfm_bGMGXGxFcrxQh4",
             authDomain: "website-f716e.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
             projectId: "website-f716e",
             storageBucket: "website-f716e.appspot.com",
             messagingSenderId: "216597054364",
-            appId: "1:216597054364:web:d44c1719558afc7472be59"
+            appId: "1:216597054364:web:d44c1719558afc7472be59",
+            measurementId: "G-M2JS3XH1TB"
         };
+
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
         const database = firebase.database();
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {
