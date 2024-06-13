@@ -90,15 +90,20 @@
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
+            console.log("Submitting message:", { name, email, message });
+
             // Save message to Firebase
             database.ref('messages').push({
                 name: name,
                 email: email,
                 message: message
+            }).then(() => {
+                console.log("Message stored successfully.");
+                // Clear the form
+                document.getElementById('contact-form').reset();
+            }).catch((error) => {
+                console.error("Error storing message:", error);
             });
-
-            // Clear the form
-            document.getElementById('contact-form').reset();
         });
 
         function displayMessages() {
@@ -107,23 +112,33 @@
                 const messagesContainer = document.getElementById('messages');
                 messagesContainer.innerHTML = '';
 
-                for (const id in messages) {
-                    const message = messages[id];
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message');
-                    messageElement.innerHTML = `
-                        <p><strong>Name:</strong> ${message.name}</p>
-                        <p><strong>Email:</strong> ${message.email}</p>
-                        <p><strong>Message:</strong> ${message.message}</p>
-                        <button onclick="deleteMessage('${id}')">Delete</button>
-                    `;
-                    messagesContainer.appendChild(messageElement);
+                if (messages) {
+                    console.log("Messages fetched:", messages);
+                    for (const id in messages) {
+                        const message = messages[id];
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('message');
+                        messageElement.innerHTML = `
+                            <p><strong>Name:</strong> ${message.name}</p>
+                            <p><strong>Email:</strong> ${message.email}</p>
+                            <p><strong>Message:</strong> ${message.message}</p>
+                            <button onclick="deleteMessage('${id}')">Delete</button>
+                        `;
+                        messagesContainer.appendChild(messageElement);
+                    }
+                } else {
+                    console.log("No messages found.");
+                    messagesContainer.innerHTML = '<p>No messages yet.</p>';
                 }
             });
         }
 
         function deleteMessage(id) {
-            database.ref('messages/' + id).remove();
+            database.ref('messages/' + id).remove().then(() => {
+                console.log("Message deleted successfully.");
+            }).catch((error) => {
+                console.error("Error deleting message:", error);
+            });
         }
 
         document.addEventListener('DOMContentLoaded', displayMessages);
