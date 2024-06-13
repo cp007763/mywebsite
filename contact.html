@@ -80,8 +80,8 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
         const database = firebase.database();
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {
